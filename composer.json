@@ -1,0 +1,18 @@
+{
+    "name": "benrowe/laravel-config",
+    "description": "A basic laravel runtime configuration handler that is stored as simple key/values.",
+    "type": "library",
+    "require": {
+        "laravel/laravel": "5.1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Rowe",
+            "email": "ben.rowe.83@gmail.com"
+        }
+    ]
+}
