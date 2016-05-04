@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Unzip filter" default="build">
-    <target name="build" depends="lint,phpunit"/>
+    <target name="build" depends="lint,phpunit,-check-failure"/>
 
     <target name="lint">
         <apply executable="php" failonerror="true" taskname="lint">
