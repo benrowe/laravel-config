@@ -14,5 +14,10 @@
             "name": "Ben Rowe",
             "email": "ben.rowe.83@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Benrowe\\Laravel\\Config\\": "src/"
+        }
+    }
 }
