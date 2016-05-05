@@ -6,7 +6,7 @@
         "laravel/laravel": "5.1.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.3"
+        "phpunit/phpunit": "~4.0"
     },
     "license": "MIT",
     "authors": [
@@ -14,5 +14,10 @@
             "name": "Ben Rowe",
             "email": "ben.rowe.83@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Benrowe\\Laravel\\Config\\": "src/"
+        }
+    }
 }
