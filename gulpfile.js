@@ -8,9 +8,10 @@ gulp.task('phpunit', function(cb) {
       statusLine:        true,
       configurationFile: './build/phpunit.xml'
     };
-    watch('src/*.php', function() {
+    var map = ['src/*.php', 'tests/*.php'];
+    watch(map, function() {
 
-        gulp.src('src/*.php').pipe(phpunit('./vendor/bin/phpunit', options)).on('end', cb);
+        gulp.src(map).pipe(phpunit('./vendor/bin/phpunit', options)).on('end', cb);
     })
 
 });
