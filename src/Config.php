@@ -128,6 +128,7 @@ class Config
                 $data[$newKey] = [];
             }
             $data[$newKey][] = $value;
+            unset($data[$key]);
         }
         return $data;
     }
