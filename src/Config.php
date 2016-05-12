@@ -138,6 +138,6 @@ class Config
      */
     private function dataEncode($data)
     {
-        return
+        return $data;
     }
 }
