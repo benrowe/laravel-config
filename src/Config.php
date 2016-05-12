@@ -64,7 +64,7 @@ class Config
      */
     public function get($key, $default = null)
     {
-
+        return Arr::get($this->data, $key, $default);
     }
 
     public function forget($key)
