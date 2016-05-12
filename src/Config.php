@@ -77,9 +77,14 @@ class Config
         return Arr::forget($this->data, $key);
     }
 
+    /**
+     * [exists description]
+     * @param  [type] $key [description]
+     * @return [type]      [description]
+     */
     public function exists($key)
     {
-
+        return Arr::has($this->data, $key);
     }
 
     /**
