@@ -3,7 +3,7 @@
     "description": "A basic laravel runtime configuration handler that is stored as simple key/values.",
     "type": "library",
     "require": {
-        "laravel/laravel": "5.1.*"
+        "illuminate/support": "^5.2"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
