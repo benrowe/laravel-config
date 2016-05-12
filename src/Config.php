@@ -156,8 +156,22 @@ class Config
      * @param  [type] $data [description]
      * @return [type]       [description]
      */
-    private function dataEncode($data)
+    private function dataEncode($data, $prefix = null)
     {
-        return $data;
+        $newData = [];
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                if (!Arr::isAssoc($value)) {
+                    foreach ($value as $index => $val) {
+                        $newData[$prefix.$key.'['.$index.']'] = $val;
+                    }
+                    continue;
+                }
+                $newData = array_merge($newData, $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER));
+            } else {
+                $newData[$prefix.$key] = $value;
+            }
+        }
+        return $newData;
     }
 }
