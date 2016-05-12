@@ -50,8 +50,8 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function testForget()
     {
         $cfg = new Config($this->data);
-        $cfg->forget('foo');
-        $this->assertNull($cfg->get('foo'));
+        $cfg->forget('fooo');
+        $this->assertNull($cfg->get('fooo'));
 
         $cfg->forget('foo.bar.something');
         $this->assertSame(count($cfg->get('foo.bar')), 1);
@@ -64,7 +64,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function testClear()
     {
         $cfg = new Config($this->data);
-        $this->assertSame($cfg->get('foo'), $this->data['foo']);
+        $this->assertSame($cfg->get('fooo'), $this->data['fooo']);
         $this->assertTrue($cfg->clear());
         $this->assertFalse($cfg->clear());
         $this->assertNull($cfg->get('foo'));
@@ -73,18 +73,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function testExists()
     {
         $cfg = new Config($this->data);
-        $this->assertTrue($cfg->exists('foo'));
+        $this->assertTrue($cfg->exists('fooo'));
         $this->assertTrue($cfg->exists('foo.other'));
         $this->assertTrue($cfg->exists('foo.bar'));
         $this->assertTrue($cfg->exists('foo.bar'));
+        $this->assertFalse($cfg->exists('madeup'));
     }
 
     public function testSet()
     {
         $cfg = new Config($this->data);
         $newValue = rand();
-        $cfg->set('foo', $newValue);
-        $this->assertSame($cfg->get('foo'), $newValue);
+        $cfg->set('fooo', $newValue);
+        $this->assertSame($cfg->get('fooo'), $newValue);
         $cfg->set('foo.bar', $newValue);
         $this->assertSame($cfg->get('foo.bar'), $newValue);
 
