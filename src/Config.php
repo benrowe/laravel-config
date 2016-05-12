@@ -54,7 +54,7 @@ class Config
      */
     public function set($key, $value)
     {
-        $this->data = Arr::set($this->data, $key, $value);
+        Arr::set($this->data, $key, $value);
     }
 
     /**
