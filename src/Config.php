@@ -80,9 +80,10 @@ class Config
     }
 
     /**
-     * [exists description]
-     * @param  [type] $key [description]
-     * @return [type]      [description]
+     * Check if a configuration setting exists
+     *
+     * @param  string $key
+     * @return boolean
      */
     public function exists($key)
     {
@@ -107,7 +108,7 @@ class Config
         foreach ($data as $key => $value) {
             Arr::set($newData, $key, $value);
         }
-        
+
         return $newData;
     }
 
