@@ -6,6 +6,8 @@ use Illuminate\Support\Arr;
 
 /**
  * Config class
+ * Transforms a flattened key/value array configuration into a multi-dimensional
+ * config handler
  */
 class Config
 {
