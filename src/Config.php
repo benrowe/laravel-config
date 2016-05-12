@@ -98,12 +98,14 @@ class Config
     {
         // preprocess the keys into a unique list where the array values are
         // stored against the same key
+
         $data = $this->unpackArray($data);
 
         $newData = [];
         foreach ($data as $key => $value) {
-            $newData = Arr::set($newData, $key, $value);
+            Arr::set($newData, $key, $value);
         }
+        
         return $newData;
     }
 
