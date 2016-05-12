@@ -17,7 +17,7 @@ class Config
     /**
      * @var string the pattern to match array keys
      */
-    const ARRAY_PATTERN = "/\[(0-9+)\]$/";
+    const ARRAY_PATTERN = "/\[([0-9]+)\]$/";
 
     /**
      * The configuration data
