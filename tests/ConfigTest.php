@@ -5,12 +5,12 @@ use Benrowe\Laravel\Config\Config;
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
     private $data = [
-        'foo' => 'bar',
+        'fooo' => 'bar',
         'foo.other' => 'bar',
         'foo.bar.something' => 'something',
-        'foo.bar.list[0]' => 'foo.bar.list[0]',
-        'foo.bar.list[1]' => 'foo.bar.list[1]',
-        'foo.bar.list[2]' => 'foo.bar.list[2]',
+        'foo.bar.list[0]' => 'VALUE:foo.bar.list[0]',
+        'foo.bar.list[1]' => 'VALUE:foo.bar.list[1]',
+        'foo.bar.list[2]' => 'VALUE:foo.bar.list[2]',
     ];
 
     /**
@@ -20,9 +20,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     public function testGet()
     {
         $cfg = new Config($this->data);
-        $this->assertSame($cfg->get('foo'), $this->data['foo']);
+        $this->assertSame($cfg->get('fooo'), $this->data['fooo']);
         $this->assertSame($cfg->get('foo.other'), $this->data['foo.other']);
-        $this->assertSame($cfg->get('foo.other.something'), $this->data['foo.other.something']);
+        $this->assertSame($cfg->get('foo.bar.something'), $this->data['foo.bar.something']);
         $this->assertNull($cfg->get('madeup'));
 
         $this->assertSame(count($cfg->get('foo.bar')), 2);
