@@ -25,7 +25,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertSame($cfg->get('foo.other.something'), $this->data['foo.other.something']);
         $this->assertNull($cfg->get('madeup'));
 
-        $this->assetSame(count($cfg->get('foo.bar')), 2);
+        $this->assertSame(count($cfg->get('foo.bar')), 2);
     }
 
     public function testGetCallback()
@@ -54,11 +54,11 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertNull($cfg->get('foo'));
 
         $cfg->forget('foo.bar.something');
-        $this->assetSame(count($cfg->get('foo.bar')), 1);
+        $this->assertSame(count($cfg->get('foo.bar')), 1);
 
         $cfg = new Config($this->data);
         $cfg->forget('foo.bar');
-        $this->assetSame(count($cfg->get('foo.bar', [])), 0);
+        $this->assertSame(count($cfg->get('foo.bar', [])), 0);
     }
 
     public function testClear()
