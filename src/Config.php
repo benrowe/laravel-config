@@ -80,6 +80,20 @@ class Config
     }
 
     /**
+     * Clear all of the settings from the configuration
+     *
+     * @return boolean
+     */
+    public function clear()
+    {
+        if ($this->data) {
+            $this->data = [];
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Check if a configuration setting exists
      *
      * @param  string $key
