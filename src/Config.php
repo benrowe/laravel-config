@@ -4,6 +4,7 @@ namespace Benrowe\Laravel\Config;
 
 use Illuminate\Support\Arr;
 
+
 /**
  * Config class
  * Transforms a flattened key/value array configuration into a multi-dimensional
@@ -27,6 +28,8 @@ class Config
      */
     private $data;
 
+    public $modifiers;
+
     /**
      * constructor
      * The initial data
@@ -36,6 +39,7 @@ class Config
     public function __construct($data)
     {
         $this->data = $this->dataDecode($data);
+        $this->modifiers = new ModifierCollection;
     }
 
     /**
@@ -69,7 +73,10 @@ class Config
      */
     public function get($key, $default = null)
     {
-        return Arr::get($this->data, $key, $default);
+        return $this->modifiers->convert(
+            $key,
+            Arr::get($this->data, $key, $default)
+        );
     }
 
     /**

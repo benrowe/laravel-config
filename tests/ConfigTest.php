@@ -30,8 +30,19 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetCallback()
     {
-        // $cfg = new Config(['callback' => '']);
-        // $rand = rand();
+        $data = [
+            'json' => '{"key": ["value"], "obj": {"key": "value"}}',
+            'carbon' => '2016-05-01 14:43:31',
+        ];
+        $cfg = new Config($data);
+        $this->assertInternalType('string', $cfg->get('json'));
+        $this->assertSame($cfg->get('json'), $data['json']);
+
+        $cfg->modifiers->push(new \Benrowe\Laravel\Config\Modifiers\Json);
+
+        $this->assertInternalType('object', $cfg->get('json'));
+        $test = $cfg->get('json');
+        $this->assertSame($test->obj->key, 'value');
     }
 
     public function testFlatten()
