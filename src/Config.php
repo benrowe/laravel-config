@@ -170,9 +170,9 @@ class Config
                     continue;
                 }
                 $newData = array_merge($newData, $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER));
-            } else {
-                $newData[$prefix.$key] = $value;
+                continue;
             }
+            $newData[$prefix.$key] = $value;
         }
         return $newData;
     }
