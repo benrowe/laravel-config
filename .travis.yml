@@ -6,4 +6,4 @@ install:
     - composer install
 script: phpunit --configuration build/phpunit.xml
 notifications:
-  email: true
+  email: false
