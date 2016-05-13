@@ -39,8 +39,8 @@ class Config
     }
 
     /**
-     * Reduce the configuration to a simple key/value array, despite the heirachy
-     * of information
+     * Reduce the configuration to a simple key/value array, despite the
+     * heirachy of information
      *
      * @return array
      */
@@ -165,7 +165,10 @@ class Config
         $newData = [];
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $newData = array_merge($newData, $this->encodeArray($key, $value, $prefix));
+                $newData = array_merge(
+                    $newData,
+                    $this->encodeArray($key, $value, $prefix)
+                );
                 continue;
             }
             $newData[$prefix.$key] = $value;
