@@ -39,8 +39,10 @@ class Config
     }
 
     /**
-     * [flatten description]
-     * @return [type] [description]
+     * Reduce the configuration to a simple key/value array, despite the heirachy
+     * of information
+     *
+     * @return array
      */
     public function flatten()
     {
