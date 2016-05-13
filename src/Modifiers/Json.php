@@ -15,9 +15,11 @@ class Json implements Modifier
      * @param  string $value
      * @return boolean
      */
-    public function canHandle($value)
+    public function canHandle($value, $direction)
     {
-        return is_string($value) && in_array($value[0], ['[', '{']);
+        $canTo = $direction == self::DIRECTION_TO && is_string($value) && in_array($value[0], ['[', '{']);
+        $canFrom = $direction == self::DIRECTION_FROM && gettype($value) == 'array' || gettype($value) == 'object';
+        return $canTo xor $canFrom;
     }
 
     public function convertTo($value)

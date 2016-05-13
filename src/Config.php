@@ -3,6 +3,7 @@
 namespace Benrowe\Laravel\Config;
 
 use Illuminate\Support\Arr;
+use Benrowe\Laravel\Config\Modifiers\Modifier;
 
 
 /**
@@ -61,7 +62,7 @@ class Config
      */
     public function set($key, $value)
     {
-        Arr::set($this->data, $key, $value);
+        Arr::set($this->data, $key, $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM));
     }
 
     /**

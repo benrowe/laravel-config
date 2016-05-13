@@ -71,7 +71,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         // verify it's returned to it's modified string state
         $cfg->modifiers->pop();
         $this->assertInternalType('string', $cfg->get('json'));
-        $this->assertSame($cfg->get('json', '{"key": ["value"], "obj": {"key": "value"}}, "newKey": "newV   alue"'));
+        $this->assertSame($cfg->get('json'), '{"key":["value"],"obj":{"key":"value"},"newKey":"newValue"}');
     }
 
     public function testFlatten()

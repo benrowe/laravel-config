@@ -4,10 +4,13 @@ namespace Benrowe\Laravel\Config\Modifiers;
 
 interface Modifier
 {
+    const DIRECTION_TO = 'to';
+    const DIRECTION_FROM = 'from';
+
     /**
      * @return boolean
      */
-    public function canHandle($value);
+    public function canHandle($value, $direction);
 
     /**
      * Convert the string|array value to the desired result
