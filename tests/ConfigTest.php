@@ -45,6 +45,35 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertSame($test->obj->key, 'value');
     }
 
+    public function testSetCallback()
+    {
+        $data = [
+            'json' => '{"key": ["value"], "obj": {"key": "value"}}',
+            'carbon' => '2016-05-01 14:43:31',
+        ];
+        $cfg = new Config($data);
+        $this->assertInternalType('string', $cfg->get('json'));
+        $this->assertSame($cfg->get('json'), $data['json']);
+
+        $cfg->modifiers->push(new \Benrowe\Laravel\Config\Modifiers\Json);
+
+        $this->assertInternalType('object', $cfg->get('json'));
+        $test = $cfg->get('json');
+        $this->assertSame($test->obj->key, 'value');
+
+        // set value in
+        $test->newKey = 'newValue';
+        $cfg->set('json', $test);
+
+        $test = $cfg->get('json');
+        $this->assertSame($test->newKey, 'newValue');
+
+        // verify it's returned to it's modified string state
+        $cfg->modifiers->pop();
+        $this->assertInternalType('string', $cfg->get('json'));
+        $this->assertSame($cfg->get('json', '{"key": ["value"], "obj": {"key": "value"}}, "newKey": "newV   alue"'));
+    }
+
     public function testFlatten()
     {
         $data = $this->data;
