@@ -48,9 +48,10 @@ class Config
     }
 
     /**
-     * [set description]
-     * @param [type] $key   [description]
-     * @param [type] $value [description]
+     * Create/Update a configuration value
+     *
+     * @param string $key
+     * @param mixed $value
      */
     public function set($key, $value)
     {
@@ -60,9 +61,9 @@ class Config
     /**
      * Get the configuration value based on it's key
      *
-     * @param  [type] $key     [description]
-     * @param  [type] $default [description]
-     * @return [type]          [description]
+     * @param  string $key
+     * @param  mixed $default
+     * @return mixed
      */
     public function get($key, $default = null)
     {
@@ -70,9 +71,10 @@ class Config
     }
 
     /**
-     * [forget description]
-     * @param  [type] $key [description]
-     * @return [type]      [description]
+     * From an item from the configuration
+     *
+     * @param  string $key
+     * @return boolean
      */
     public function forget($key)
     {
@@ -151,10 +153,10 @@ class Config
     }
 
     /**
-     * [dataEncode description]
+     * Flatten a multi-dimensional array into a linear key/value list
      *
-     * @param  [type] $data [description]
-     * @return [type]       [description]
+     * @param  array $data
+     * @return array
      */
     private function dataEncode($data, $prefix = null)
     {
