@@ -39,8 +39,10 @@ class Config
     }
 
     /**
-     * [flatten description]
-     * @return [type] [description]
+     * Reduce the configuration to a simple key/value array, despite the heirachy
+     * of information
+     *
+     * @return array
      */
     public function flatten()
     {
@@ -48,9 +50,10 @@ class Config
     }
 
     /**
-     * [set description]
-     * @param [type] $key   [description]
-     * @param [type] $value [description]
+     * Create/Update a configuration value
+     *
+     * @param string $key
+     * @param mixed $value
      */
     public function set($key, $value)
     {
@@ -60,9 +63,9 @@ class Config
     /**
      * Get the configuration value based on it's key
      *
-     * @param  [type] $key     [description]
-     * @param  [type] $default [description]
-     * @return [type]          [description]
+     * @param  string $key
+     * @param  mixed $default
+     * @return mixed
      */
     public function get($key, $default = null)
     {
@@ -70,9 +73,10 @@ class Config
     }
 
     /**
-     * [forget description]
-     * @param  [type] $key [description]
-     * @return [type]      [description]
+     * From an item from the configuration
+     *
+     * @param  string $key
+     * @return boolean
      */
     public function forget($key)
     {
@@ -86,7 +90,7 @@ class Config
      */
     public function clear()
     {
-        if ($this->data) {
+        if (!empty($this->data)) {
             $this->data = [];
             return true;
         }
@@ -151,27 +155,41 @@ class Config
     }
 
     /**
-     * [dataEncode description]
+     * Flatten a multi-dimensional array into a linear key/value list
      *
-     * @param  [type] $data [description]
-     * @return [type]       [description]
+     * @param  array $data
+     * @return array
      */
     private function dataEncode($data, $prefix = null)
     {
         $newData = [];
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                if (!Arr::isAssoc($value)) {
-                    foreach ($value as $index => $val) {
-                        $newData[$prefix.$key.'['.$index.']'] = $val;
-                    }
-                    continue;
-                }
-                $newData = array_merge($newData, $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER));
-            } else {
-                $newData[$prefix.$key] = $value;
+                $newData = array_merge($newData, $this->encodeArray($key, $value, $prefix));
+                continue;
             }
+            $newData[$prefix.$key] = $value;
         }
         return $newData;
+    }
+
+    /**
+     * Encode the array of values against the provided key
+     *
+     * @param  string $key
+     * @param  array  $value  either an associative or keyed array
+     * @param  string $prefix
+     * @return array
+     */
+    private function encodeArray($key, array $value, $prefix = null)
+    {
+        $data = [];
+        if (!Arr::isAssoc($value)) {
+            foreach ($value as $index => $val) {
+                $data[$prefix.$key.'['.$index.']'] = $val;
+            }
+            return $data;
+        }
+        return $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER);
     }
 }
