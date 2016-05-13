@@ -90,7 +90,7 @@ class Config
      */
     public function clear()
     {
-        if ($this->data) {
+        if (!empty($this->data)) {
             $this->data = [];
             return true;
         }
