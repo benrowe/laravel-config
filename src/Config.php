@@ -165,17 +165,31 @@ class Config
         $newData = [];
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                if (!Arr::isAssoc($value)) {
-                    foreach ($value as $index => $val) {
-                        $newData[$prefix.$key.'['.$index.']'] = $val;
-                    }
-                    continue;
-                }
-                $newData = array_merge($newData, $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER));
+                $newData = array_merge($newData, $this->encodeArray($key, $value, $prefix));
                 continue;
             }
             $newData[$prefix.$key] = $value;
         }
         return $newData;
+    }
+
+    /**
+     * Encode the array of values against the provided key
+     *
+     * @param  string $key
+     * @param  array  $value  either an associative or keyed array
+     * @param  string $prefix
+     * @return array
+     */
+    private function encodeArray($key, array $value, $prefix = null)
+    {
+        $data = [];
+        if (!Arr::isAssoc($value)) {
+            foreach ($value as $index => $val) {
+                $data[$prefix.$key.'['.$index.']'] = $val;
+            }
+            return $data;
+        }
+        return $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER);
     }
 }
