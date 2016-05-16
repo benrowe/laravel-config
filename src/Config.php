@@ -2,9 +2,9 @@
 
 namespace Benrowe\Laravel\Config;
 
-use Illuminate\Support\Arr;
-use Benrowe\Laravel\Config\Modifiers\Modifier;
 use Benrowe\Laravel\Config\Modifiers\Collection;
+use Benrowe\Laravel\Config\Modifiers\Modifier;
+use Illuminate\Support\Arr;
 
 /**
  * Config class
@@ -170,6 +170,7 @@ class Config
      * Flatten a multi-dimensional array into a linear key/value list
      *
      * @param  array $data
+     * @param string $prefix
      * @return array
      */
     private function dataEncode($data, $prefix = null)

@@ -2,8 +2,8 @@
 
 namespace Benrowe\Laravel\Config\Modifiers;
 
-use Illuminate\Support\Collection as BaseCollection;
 use Benrowe\Laravel\Config\Modifiers\Modifier;
+use Illuminate\Support\Collection as BaseCollection;
 
 /**
  *
