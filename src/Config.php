@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Benrowe\Laravel\Config\Modifiers\Modifier;
 use Benrowe\Laravel\Config\Modifiers\Collection;
 
-
 /**
  * Config class
  * Transforms a flattened key/value array configuration into a multi-dimensional
@@ -82,14 +81,18 @@ class Config
     }
 
     /**
-     * From an item from the configuration
+     * Remove an item from the configuration
      *
      * @param  string $key
      * @return boolean
      */
     public function forget($key)
     {
-        return Arr::forget($this->data, $key);
+        if ($this->exists($key)) {
+            Arr::forget($this->data, $key);
+            return true;
+        }
+        return false;
     }
 
     /**
