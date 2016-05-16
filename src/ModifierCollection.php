@@ -10,6 +10,7 @@ use Benrowe\Laravel\Config\Modifiers\Modifier;
  */
 class ModifierCollection extends Collection
 {
+    private $keys = [];
     /**
      * Convert the value based on the supplied modifiers
      *
@@ -23,6 +24,7 @@ class ModifierCollection extends Collection
         $method = 'convert'.ucfirst($direction);
         foreach ($this->items as $modifier) {
             if ($modifier->canHandle($value, $direction)) {
+                $this->keys = $key;
                 return $modifier->$method($value);
             }
         }
