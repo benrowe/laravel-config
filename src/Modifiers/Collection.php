@@ -1,14 +1,14 @@
 <?php
 
-namespace Benrowe\Laravel\Config;
+namespace Benrowe\Laravel\Config\Modifiers;
 
-use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as BaseCollection;
 use Benrowe\Laravel\Config\Modifiers\Modifier;
 
 /**
  *
  */
-class ModifierCollection extends Collection
+class Collection extends BaseCollection
 {
     private $keys = [];
     /**

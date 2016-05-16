@@ -4,6 +4,7 @@ namespace Benrowe\Laravel\Config;
 
 use Illuminate\Support\Arr;
 use Benrowe\Laravel\Config\Modifiers\Modifier;
+use Benrowe\Laravel\Config\Modifiers\Collection;
 
 
 /**
@@ -40,7 +41,7 @@ class Config
     public function __construct($data)
     {
         $this->data = $this->dataDecode($data);
-        $this->modifiers = new ModifierCollection;
+        $this->modifiers = new Collection;
     }
 
     /**
