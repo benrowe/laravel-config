@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Ben Rowe <ben.rowe.83@gmail.com>
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ */
+
 namespace Benrowe\Laravel\Config;
 
 use Illuminate\Support\Arr;
@@ -8,6 +13,8 @@ use Illuminate\Support\Arr;
  * Config class
  * Transforms a flattened key/value array configuration into a multi-dimensional
  * config handler
+ *
+ * @package Benrowe\Laravel\Config
  */
 class Config
 {
