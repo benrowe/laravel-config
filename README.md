@@ -28,16 +28,14 @@ $bar = $config->get('foo.bar'); // => ['Hello', 'World']
 
 ## Features
 
-- Ability to store the configuration data into any persistent data store (file, db, etc)
-- Dot notation systax for configuration hierarchy.
-- Values can be simple strings, or arrays of strings
+- Ability to store the configuration data into any persistent data store (file, db, etc).
+  - Provided Storage Adapters include Db, File, Redis.
+- Dot notation syntax for configuration hierarchy.
+- Values can be simple strings, or arrays of strings.
+- Modifier support. Modifers can be registered to manipulate the value at runtime. (aka storing json, datetimes, etc).
+- [ServiceProvider][2] included to configure the component based on the supplied configuration
+- Facade support
 
-## Coming in 0.2
-- Service Provider will be included
-- Ability to register accessors/mutators. These can provide runtime manipulation
-  of values within the configuration
-- Adapters for persistent data storage
-- Facade Support
 
 ## Installation
 
@@ -57,4 +55,7 @@ Now run the `install` command.
 $ composer.phar install
 ```
 
+This will provide access to the component via PSR-4. To configure the package as a laravel service, the service provider must be registered.
+
 [1]: http://getcomposer.org/
+[2]: https://laravel.com/docs/master/providers
