@@ -55,7 +55,10 @@ Now run the `install` command.
 $ composer.phar install
 ```
 
-This will provide access to the component via PSR-4. To configure the package as a laravel service, the service provider must be registered.
+This will provide access to the component via PSR-4. To configure the package as a laravel service, the service provider must be registered with the provided ServiceProvider.
+
+* 
+
 
 [1]: http://getcomposer.org/
 [2]: https://laravel.com/docs/master/providers
