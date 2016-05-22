@@ -2,6 +2,7 @@
 
 namespace Benrowe\Laravel\Config;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
 
 /**
@@ -9,7 +10,7 @@ use Illuminate\Support\Arr;
  * Transforms a flattened key/value array configuration into a multi-dimensional
  * config handler
  */
-class Config
+class Config implements Repository
 {
     /**
      * @var string The delimiter used in the array keys to specify the heirachy
@@ -55,7 +56,7 @@ class Config
      * @param string $key
      * @param mixed $value
      */
-    public function set($key, $value)
+    public function set($key, $value = null)
     {
         Arr::set($this->data, $key, $value);
     }
@@ -70,6 +71,14 @@ class Config
     public function get($key, $default = null)
     {
         return Arr::get($this->data, $key, $default);
+    }
+
+    /***
+      * Get all of the configuration data in it's hierarchical state
+      */
+    public function all()
+    {
+        return $this->data;
     }
 
     /**
@@ -103,9 +112,59 @@ class Config
      * @param  string $key
      * @return boolean
      */
-    public function exists($key)
+    public function has($key)
     {
         return Arr::has($this->data, $key);
+    }
+
+    /**
+     * Prepend a value onto the key.
+     *
+     * If that existing key is not  an array it will be converted into an array
+     * and the the value will be the first element of the array
+     *
+     * @param  string $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function prepend($key, $value)
+    {
+        $existing = $this->getAsArray($key);
+        array_unshift($existing, $value);
+        $this->set($key, $existing);
+    }
+
+    /**
+     * Push a value onto the key
+     *
+     * If that existing key is not  an array it will be converted into an array
+     * and the the value will be the first element of the array
+     *
+     * @param  string $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function push($key, $value)
+    {
+        $existing = $this->getAsArray($key);
+        array_push($existing, $value);
+        $this->set($key, $existing);
+    }
+
+    /**
+     * Get the value, as an array
+     *
+     * @param  string $key
+     * @return array any existing value will be converted to the first element
+     *               of the array
+     */
+    private function getAsArray($key)
+    {
+        $value = $this->get($key);
+        if (!is_array($value)) {
+            $value = !is_null($value) ? [$value] : [];
+        }
+        return $value;
     }
 
     /**
