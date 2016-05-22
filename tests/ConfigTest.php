@@ -18,6 +18,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test the ability to get values out
+     *
      * @return [type] [description]
      */
     public function testGet()
