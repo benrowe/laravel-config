@@ -2,6 +2,9 @@
 
 use Benrowe\Laravel\Config\Config;
 
+/**
+ * Tests for Config class
+ */
 class ConfigTest extends PHPUnit_Framework_TestCase
 {
     private $data = [
@@ -70,14 +73,14 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertNull($cfg->get('foo'));
     }
 
-    public function testExists()
+    public function testHas()
     {
         $cfg = new Config($this->data);
-        $this->assertTrue($cfg->exists('fooo'));
-        $this->assertTrue($cfg->exists('foo.other'));
-        $this->assertTrue($cfg->exists('foo.bar'));
-        $this->assertTrue($cfg->exists('foo.bar'));
-        $this->assertFalse($cfg->exists('madeup'));
+        $this->assertTrue($cfg->has('fooo'));
+        $this->assertTrue($cfg->has('foo.other'));
+        $this->assertTrue($cfg->has('foo.bar'));
+        $this->assertTrue($cfg->has('foo.bar'));
+        $this->assertFalse($cfg->has('madeup'));
     }
 
     public function testSet()
@@ -88,16 +91,87 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertSame($cfg->get('fooo'), $newValue);
         $cfg->set('foo.bar', $newValue);
         $this->assertSame($cfg->get('foo.bar'), $newValue);
+    }
 
+    public function testPrepend()
+    {
+        $cfg = new Config(['existing' => 'value']);
+
+        // non-existing key
+        $cfg->prepend('prepend', 'value');
+        $this->assertSame($cfg->get('prepend')[0], 'value');
+
+        $cfg->prepend('prepend', 'value');
+        $cfg->prepend('prepend', 'value');
+        $cfg->prepend('prepend', 'latest value');
+
+        // add a few more values
+        $this->assertSame(count($cfg->get('prepend')), 4);
+        $this->assertSame($cfg->get('prepend')[0], 'latest value');
+
+        $cfg->prepend('existing', '2nd value');
+        $this->assertSame(count($cfg->get('existing')), 2);
+        $this->assertSame($cfg->get('existing')[0], '2nd value');
+        $this->assertSame($cfg->get('existing')[1], 'value');
     }
 
     public function testPush()
     {
+        $cfg = new Config(['existing' => 'value']);
 
+        // non-existing key
+        $cfg->push('push', 'value');
+        $this->assertSame($cfg->get('push')[0], 'value');
+
+        $cfg->push('push', 'value');
+        $cfg->push('push', 'value');
+        $cfg->push('push', 'latest value');
+
+        // add a few more values
+        $this->assertSame(count($cfg->get('push')), 4);
+        $this->assertSame($cfg->get('push')[3], 'latest value');
+
+        $cfg->push('existing', '2nd value');
+        $this->assertSame(count($cfg->get('existing')), 2);
+        $this->assertSame($cfg->get('existing')[0], 'value');
+        $this->assertSame($cfg->get('existing')[1], '2nd value');
+
+    }
+
+    public function testPrependPush()
+    {
+        $cfg = new Config([]);
+        $cfg->prepend('prepend', 'value');
+
+        // non-existing key
+        $this->assertSame($cfg->get('prepend')[0], 'value');
+
+        $cfg->prepend('prepend', 'other Value');
+        $this->assertSame(count($cfg->get('prepend')), 2);
+        $this->assertSame($cfg->get('prepend')[0], 'other Value');
+
+        // push a value onto the end
+        $cfg->push('prepend', 'last value');
+        $this->assertSame(count($cfg->get('prepend')), 3);
+        $this->assertSame($cfg->get('prepend')[0], 'other Value');
     }
 
     public function testAll()
     {
-
+        $cfg = new Config($this->data);
+        $this->assertSame($cfg->all(), [
+            'fooo' => 'bar',
+            'foo' => [
+                'other' => 'bar',
+                'bar' => [
+                    'something' => 'something',
+                    'list' => [
+                        'VALUE:foo.bar.list[0]',
+                        'VALUE:foo.bar.list[1]',
+                        'VALUE:foo.bar.list[2]'
+                    ]
+                ]
+            ],
+        ]);
     }
 }
