@@ -247,7 +247,7 @@ class Config implements Repository
      *
      * @param  string $key
      * @param  array  $value  either an associative or keyed array
-     * @param  string $prefix
+     * @param  string|null $prefix
      * @return array
      */
     private function encodeArray($key, array $value, $prefix = null)
