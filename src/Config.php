@@ -38,7 +38,7 @@ class Config implements Repository
      * The initial data
      *
      * @param array $data the flattened data
-     * @param Arr $arrHelper the array helper
+     * @param Arr|null $arrHelper the array helper
      */
     public function __construct($data, Arr $arrHelper = null)
     {
