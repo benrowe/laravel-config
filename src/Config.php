@@ -29,13 +29,23 @@ class Config implements Repository
     private $data;
 
     /**
+     * @var \Illuminate\Support\Arr
+     */
+    private $arrHelper;
+
+    /**
      * constructor
      * The initial data
      *
      * @param array $data the flattened data
+     * @param Arr $arrHelper the array helper
      */
-    public function __construct($data)
+    public function __construct($data, Arr $arrHelper = null)
     {
+        if ($arrHelper === null) {
+            $arrHelper = new Arr;
+        }
+        $this->arrHelper = $arrHelper;
         $this->data = $this->dataDecode($data);
     }
 
@@ -58,7 +68,7 @@ class Config implements Repository
      */
     public function set($key, $value = null)
     {
-        Arr::set($this->data, $key, $value);
+        $this->arrHelper->set($this->data, $key, $value);
     }
 
     /**
@@ -70,7 +80,7 @@ class Config implements Repository
      */
     public function get($key, $default = null)
     {
-        return Arr::get($this->data, $key, $default);
+        return $this->arrHelper->get($this->data, $key, $default);
     }
 
     /***
@@ -89,7 +99,7 @@ class Config implements Repository
      */
     public function forget($key)
     {
-        return Arr::forget($this->data, $key);
+        return $this->arrHelper->forget($this->data, $key);
     }
 
     /**
@@ -114,7 +124,7 @@ class Config implements Repository
      */
     public function has($key)
     {
-        return Arr::has($this->data, $key);
+        return $this->arrHelper->has($this->data, $key);
     }
 
     /**
@@ -183,7 +193,7 @@ class Config implements Repository
 
         $newData = [];
         foreach ($data as $key => $value) {
-            Arr::set($newData, $key, $value);
+            $this->arrHelper->set($newData, $key, $value);
         }
 
         return $newData;
@@ -243,7 +253,7 @@ class Config implements Repository
     private function encodeArray($key, array $value, $prefix = null)
     {
         $data = [];
-        if (!Arr::isAssoc($value)) {
+        if (!$this->arrHelper->isAssoc($value)) {
             foreach ($value as $index => $val) {
                 $data[$prefix.$key.'['.$index.']'] = $val;
             }
