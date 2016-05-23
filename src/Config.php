@@ -243,7 +243,7 @@ class Config implements Repository
      * Flatten a multi-dimensional array into a linear key/value list
      *
      * @param  array $data
-     * @param string $prefix
+     * @param string|null $prefix
      * @return array
      */
     private function dataEncode($data, $prefix = null)
