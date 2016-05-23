@@ -8,7 +8,7 @@ gulp.task('phpunit', function(cb) {
       statusLine:        true,
       configurationFile: './build/phpunit.xml'
     };
-    var map = ['src/*.php', 'tests/*.php'];
+    var map = ['src/**/*.php', 'tests/**/*.php'];
     watch(map, function() {
 
         gulp.src(map).pipe(phpunit('./vendor/bin/phpunit', options)).on('end', cb);
