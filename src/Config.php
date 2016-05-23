@@ -2,6 +2,8 @@
 
 namespace Benrowe\Laravel\Config;
 
+use Benrowe\Laravel\Config\Modifiers\Collection;
+use Benrowe\Laravel\Config\Modifiers\Modifier;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
 
@@ -28,6 +30,8 @@ class Config implements Repository
      */
     private $data;
 
+    public $modifiers;
+
     /**
      * @var \Illuminate\Support\Arr
      */
@@ -47,11 +51,12 @@ class Config implements Repository
         }
         $this->arrHelper = $arrHelper;
         $this->data = $this->dataDecode($data);
+        $this->modifiers = new Collection;
     }
 
     /**
-     * Reduce the configuration to a simple key/value array, despite the heirachy
-     * of information
+     * Reduce the configuration to a simple key/value array, despite the
+     * heirachy of information
      *
      * @return array
      */
@@ -68,7 +73,11 @@ class Config implements Repository
      */
     public function set($key, $value = null)
     {
-        $this->arrHelper->set($this->data, $key, $value);
+        $this->arrHelper->set(
+            $this->data,
+            $key,
+            $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM)
+        );
     }
 
     /**
@@ -80,7 +89,10 @@ class Config implements Repository
      */
     public function get($key, $default = null)
     {
-        return $this->arrHelper->get($this->data, $key, $default);
+        return $this->modifiers->convert(
+            $key,
+            $this->arrHelper->get($this->data, $key, $default)
+        );
     }
 
     /***
@@ -92,14 +104,18 @@ class Config implements Repository
     }
 
     /**
-     * From an item from the configuration
+     * Remove an item from the configuration
      *
      * @param  string $key
      * @return boolean
      */
     public function forget($key)
     {
-        return $this->arrHelper->forget($this->data, $key);
+        if ($this->has($key)) {
+            $this->arrHelper->forget($this->data, $key);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -227,6 +243,7 @@ class Config implements Repository
      * Flatten a multi-dimensional array into a linear key/value list
      *
      * @param  array $data
+     * @param string|null $prefix
      * @return array
      */
     private function dataEncode($data, $prefix = null)
@@ -234,7 +251,10 @@ class Config implements Repository
         $newData = [];
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $newData = array_merge($newData, $this->encodeArray($key, $value, $prefix));
+                $newData = array_merge(
+                    $newData,
+                    $this->encodeArray($key, $value, $prefix)
+                );
                 continue;
             }
             $newData[$prefix.$key] = $value;
