@@ -35,6 +35,7 @@ checks:
         newline_at_end_of_file: true
 
 tools:
+    external_code_coverage: false
     php_code_coverage: false
     php_code_sniffer:
         config:

@@ -4,6 +4,7 @@ namespace Benrowe\Laravel\Config;
 
 use Benrowe\Laravel\Config\Modifiers\Collection;
 use Benrowe\Laravel\Config\Modifiers\Modifier;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
 
 /**
@@ -11,7 +12,7 @@ use Illuminate\Support\Arr;
  * Transforms a flattened key/value array configuration into a multi-dimensional
  * config handler
  */
-class Config
+class Config implements Repository
 {
     /**
      * @var string The delimiter used in the array keys to specify the heirachy
@@ -32,13 +33,23 @@ class Config
     public $modifiers;
 
     /**
+     * @var \Illuminate\Support\Arr
+     */
+    private $arrHelper;
+
+    /**
      * constructor
      * The initial data
      *
      * @param array $data the flattened data
+     * @param Arr|null $arrHelper the array helper
      */
-    public function __construct($data)
+    public function __construct($data, Arr $arrHelper = null)
     {
+        if ($arrHelper === null) {
+            $arrHelper = new Arr;
+        }
+        $this->arrHelper = $arrHelper;
         $this->data = $this->dataDecode($data);
         $this->modifiers = new Collection;
     }
@@ -60,9 +71,13 @@ class Config
      * @param string $key
      * @param mixed $value
      */
-    public function set($key, $value)
+    public function set($key, $value = null)
     {
-        Arr::set($this->data, $key, $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM));
+        $this->arrHelper->set(
+            $this->data,
+            $key,
+            $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM)
+        );
     }
 
     /**
@@ -76,8 +91,16 @@ class Config
     {
         return $this->modifiers->convert(
             $key,
-            Arr::get($this->data, $key, $default)
+            $this->arrHelper->get($this->data, $key, $default)
         );
+    }
+
+    /***
+      * Get all of the configuration data in it's hierarchical state
+      */
+    public function all()
+    {
+        return $this->data;
     }
 
     /**
@@ -88,8 +111,8 @@ class Config
      */
     public function forget($key)
     {
-        if ($this->exists($key)) {
-            Arr::forget($this->data, $key);
+        if ($this->has($key)) {
+            $this->arrHelper->forget($this->data, $key);
             return true;
         }
         return false;
@@ -115,9 +138,59 @@ class Config
      * @param  string $key
      * @return boolean
      */
-    public function exists($key)
+    public function has($key)
     {
-        return Arr::has($this->data, $key);
+        return $this->arrHelper->has($this->data, $key);
+    }
+
+    /**
+     * Prepend a value onto the key.
+     *
+     * If that existing key is not  an array it will be converted into an array
+     * and the the value will be the first element of the array
+     *
+     * @param  string $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function prepend($key, $value)
+    {
+        $existing = $this->getAsArray($key);
+        array_unshift($existing, $value);
+        $this->set($key, $existing);
+    }
+
+    /**
+     * Push a value onto the key
+     *
+     * If that existing key is not  an array it will be converted into an array
+     * and the the value will be the first element of the array
+     *
+     * @param  string $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function push($key, $value)
+    {
+        $existing = $this->getAsArray($key);
+        array_push($existing, $value);
+        $this->set($key, $existing);
+    }
+
+    /**
+     * Get the value, as an array
+     *
+     * @param  string $key
+     * @return array any existing value will be converted to the first element
+     *               of the array
+     */
+    private function getAsArray($key)
+    {
+        $value = $this->get($key);
+        if (!is_array($value)) {
+            $value = !is_null($value) ? [$value] : [];
+        }
+        return $value;
     }
 
     /**
@@ -136,7 +209,7 @@ class Config
 
         $newData = [];
         foreach ($data as $key => $value) {
-            Arr::set($newData, $key, $value);
+            $this->arrHelper->set($newData, $key, $value);
         }
 
         return $newData;
@@ -194,13 +267,13 @@ class Config
      *
      * @param  string $key
      * @param  array  $value  either an associative or keyed array
-     * @param  string $prefix
+     * @param  string|null $prefix
      * @return array
      */
     private function encodeArray($key, array $value, $prefix = null)
     {
         $data = [];
-        if (!Arr::isAssoc($value)) {
+        if (!$this->arrHelper->isAssoc($value)) {
             foreach ($value as $index => $val) {
                 $data[$prefix.$key.'['.$index.']'] = $val;
             }
