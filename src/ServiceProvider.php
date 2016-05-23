@@ -34,7 +34,7 @@ class ServiceProvider extends ServiceProvider
     /**
      * Register an instance of the component
      *
-     * @return [type] [description]
+     * @return void
      */
     public function register()
     {
@@ -44,9 +44,9 @@ class ServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the services this provider will build & provide
      *
-     *
-     * @return
+     * @return array
      */
     public function provides()
     {
