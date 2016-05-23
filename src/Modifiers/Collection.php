@@ -29,7 +29,7 @@ class Collection extends BaseCollection
         $method = 'convert'.ucfirst($direction);
         foreach ($this->items as $modifier) {
             if ($modifier->canHandle($value, $direction)) {
-                $this->keys = $key;
+                $this->keys[] = $key;
                 return $modifier->$method($value);
             }
         }
