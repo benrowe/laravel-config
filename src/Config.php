@@ -44,7 +44,7 @@ class Config implements Repository
      * @param array $data the flattened data
      * @param Arr|null $arrHelper the array helper
      */
-    public function __construct($data, Arr $arrHelper = null)
+    public function __construct($data = [], Arr $arrHelper = null)
     {
         if ($arrHelper === null) {
             $arrHelper = new Arr;
