@@ -4,13 +4,17 @@ namespace Benrowe\Laravel\Config;
 
 use Benrowe\Laravel\Config\Modifiers\Collection;
 use Benrowe\Laravel\Config\Modifiers\Modifier;
+use Benrowe\Laravel\Config\Storage\StorageInterface;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 
 /**
  * Config class
  * Transforms a flattened key/value array configuration into a multi-dimensional
  * config handler
+ *
+ * @package Benrowe\Laravel\Config
  */
 class Config implements Repository
 {
@@ -37,19 +41,32 @@ class Config implements Repository
      */
     private $arrHelper;
 
+    private $storage;
+
     /**
      * constructor
      * The initial data
      *
-     * @param array $data the flattened data
+     * @param array|StorageInterface $data the flattened data
      * @param Arr|null $arrHelper the array helper
      */
     public function __construct($data = [], Arr $arrHelper = null)
     {
+        // test $data is valid
+        if (!is_array($data) && !($data instanceof StorageInterface)) {
+            throw new \InvalidArgumentException('$data must be either an array or an implementation of '.StorageInterface::class.'');
+        }
+
         if ($arrHelper === null) {
             $arrHelper = new Arr;
         }
         $this->arrHelper = $arrHelper;
+
+        if ($data instanceof StorageInterface) {
+            $this->storage = $data;
+            $data = $this->storage->load();
+        }
+
         $this->data = $this->dataDecode($data);
         $this->modifiers = new Collection;
     }
