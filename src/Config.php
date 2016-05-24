@@ -73,11 +73,13 @@ class Config implements Repository
      */
     public function set($key, $value = null)
     {
-        $this->arrHelper->set(
-            $this->data,
-            $key,
-            $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM)
-        );
+        $value = $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM);
+        // verify the array
+        if (!$this->isValidValue($value)) {
+            throw new InvalidArgumentException('unable to set value, is not scalar or array of scalar values');
+        }
+
+        $this->arrHelper->set($this->data, $key, $value);
     }
 
     /**
@@ -280,5 +282,22 @@ class Config implements Repository
             return $data;
         }
         return $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER);
+    }
+
+    /**
+     * Validate the value as safe for this object
+     *
+     * @param  mixed  $value the value to test
+     * @return boolean 
+     */
+    private function isValidValue($value)
+    {
+        return
+            is_scalar($value) ||
+            (
+                is_array($value) &&
+                !$this->arrHelper->isAssoc($value) &&
+                count($value) === count(array_filter($value, 'is_scalar'))
+            );
     }
 }
