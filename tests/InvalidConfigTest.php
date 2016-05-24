@@ -20,4 +20,11 @@ class InvalidConfigTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException(InvalidArgumentException::class);
         new Config(new stdClass);
     }
+
+    public function testNonStringForValue()
+    {
+        $cfg = new Config();
+        $this->setExpectedException(InvalidArgumentException::class);
+        $cfg->set('newkey', new stdClass);
+    }
 }
