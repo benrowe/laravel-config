@@ -45,6 +45,13 @@ class InvalidConfigTest extends PHPUnit_Framework_TestCase
     {
         $cfg = new Config();
         $this->setExpectedException(InvalidArgumentException::class);
-        $this->set('newkey', [['invalid']]);
+        $cfg->set('newkey', [['string']]);
+    }
+
+    public function testAssocArray()
+    {
+        $cfg = new Config();
+        $this->setExpectedException(InvalidArgumentException::class);
+        $cfg->set('newkey', ['key' => 'value']);
     }
 }
