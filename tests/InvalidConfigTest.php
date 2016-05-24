@@ -15,16 +15,36 @@ class InvalidConfigTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testObjData()
+    public function testNonScalarData()
     {
         $this->setExpectedException(InvalidArgumentException::class);
         new Config(new stdClass);
     }
 
-    public function testNonStringForValue()
+    /**
+     * Ensure that non-scalar values are not valid
+     */
+    public function testNonScalarValue()
     {
         $cfg = new Config();
         $this->setExpectedException(InvalidArgumentException::class);
         $cfg->set('newkey', new stdClass);
+    }
+
+    /**
+     * Ensure that objects in arrays are not allowed
+     */
+    public function testArrayNonScalar()
+    {
+        $cfg = new Config();
+        $this->setExpectedException(InvalidArgumentException::class);
+        $cfg->set('newkey', [new stdClass]);
+    }
+
+    public function testMultiDimentionalArrays()
+    {
+        $cfg = new Config();
+        $this->setExpectedException(InvalidArgumentException::class);
+        $this->set('newkey', [['invalid']]);
     }
 }
