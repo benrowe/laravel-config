@@ -310,7 +310,7 @@ class Config implements Repository
      * Validate the value as safe for this object
      *
      * @param  mixed  $value the value to test
-     * @return boolean 
+     * @return boolean
      */
     private function isValidValue($value)
     {
