@@ -59,7 +59,7 @@ class Config implements Repository
     {
         // test $data is valid
         if (!is_array($data) && !($data instanceof StorageInterface)) {
-            throw new \InvalidArgumentException('$data must be either an array or an implementation of '.StorageInterface::class.'');
+            throw new \InvalidArgumentException($msg);
         }
 
         if ($arrHelper === null) {
@@ -95,10 +95,16 @@ class Config implements Repository
      */
     public function set($key, $value = null)
     {
-        $value = $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM);
+        $value = $this->modifiers->convert(
+            $key,
+            $value,
+            Modifier::DIRECTION_FROM
+        );
         // verify the array
         if (!$this->isValidValue($value)) {
-            throw new InvalidArgumentException('unable to set value, is not scalar or array of scalar values');
+            $msg = 'Value for "'.$key.'" is invalid. ';
+            $msg .= 'Must be scalar or an array of scalar values';
+            throw new InvalidArgumentException($msg);
         }
 
         $this->arrHelper->set($this->data, $key, $value);
