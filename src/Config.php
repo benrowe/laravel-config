@@ -59,6 +59,8 @@ class Config implements Repository
     {
         // test $data is valid
         if (!is_array($data) && !($data instanceof StorageInterface)) {
+            $msg = '$data must be either an array or an implementation of ';
+            $msg .= StorageInterface::class;
             throw new \InvalidArgumentException($msg);
         }
 
