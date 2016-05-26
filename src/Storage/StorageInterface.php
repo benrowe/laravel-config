@@ -1,7 +1,12 @@
 <?php
 
-namespace Benrowe\Laravel\Config;
+namespace Benrowe\Laravel\Config\Storage;
 
+/**
+ * Storage Interface
+ *
+ * @package Benrowe\Laravel\Config\Storage
+ */
 interface StorageInterface
 {
     /**
@@ -14,7 +19,7 @@ interface StorageInterface
 
     /**
      * Load all of the values from storage
-     * 
+     *
      * @return array
      */
     public function load();
