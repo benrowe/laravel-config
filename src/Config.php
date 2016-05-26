@@ -110,6 +110,7 @@ class Config implements Repository
         }
 
         $this->arrHelper->set($this->data, $key, $value);
+        $this->storage && $this->storage->save($key, $value);
     }
 
     /**
@@ -159,6 +160,7 @@ class Config implements Repository
     {
         if (!empty($this->data)) {
             $this->data = [];
+            $this->storage && $this->storage->clear();
             return true;
         }
         return false;
