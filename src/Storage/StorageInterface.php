@@ -13,7 +13,7 @@ interface StorageInterface
      * Save the specific key & value
      *
      * @param string $key
-     * @param string $value
+     * @param string|array $value
      */
     public function save($key, $value);
 
