@@ -37,13 +37,10 @@ class File implements StorageInterface
     public function save($key, $value)
     {
         $data = $this->load();
+        $data = $this->delKey($data, $key);
         if (is_array($value)) {
             // remove all previous keys first
-            foreach ($data as $dataKey => $dataValue) {
-                if (strpos($dataKey, $key) === 0) {
-                    unset($data[$dataKey]);
-                }
-            }
+
             foreach ($value as $i => $arrValue) {
                 $data[$key.'['.$i.']'] = $arrValue;
             }
@@ -77,5 +74,23 @@ class File implements StorageInterface
         $clearState = '{}';
         file_put_contents($this->filename, $clearState);
         $this->fileState = md5($clearState);
+    }
+
+    /**
+     * Remove the requested key from the data, reguardless if it's a single
+     * value or an array of values
+     *
+     * @param  array  $data [description]
+     * @param  string $key  the key to delete
+     * @return array
+     */
+    private function delKey(array $data, $key)
+    {
+        foreach ($data as $dataKey => $dataValue) {
+            if (strpos($dataKey, $key) === 0) {
+                unset($data[$dataKey]);
+            }
+        }
+        return $data;
     }
 }
