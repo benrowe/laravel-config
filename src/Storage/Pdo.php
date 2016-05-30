@@ -10,7 +10,7 @@ use PDO as BasePdo;
 class Pdo implements StorageInterface
 {
     /**
-     * @var PDO
+     * @var BasePdo
      */
     private $pdo;
 
@@ -32,8 +32,8 @@ class Pdo implements StorageInterface
     /**
      * constructor
      *
-     * @param PDO    $pdo        instance of pdo to execute the queries against
-     * @param string $tableName  the table name to reference
+     * @param BasePdo $pdo      instance of pdo to execute the queries against
+     * @param string $tableName the table name to reference
      * @param array $sqlQueries custom queries
      */
     public function __construct(BasePdo $pdo, $tableName = 'config', array $sqlQueries = [])
