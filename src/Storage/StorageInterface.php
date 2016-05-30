@@ -14,6 +14,7 @@ interface StorageInterface
      *
      * @param string $key
      * @param string|array $value
+     * @return void
      */
     public function save($key, $value);
 

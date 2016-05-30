@@ -86,7 +86,8 @@ class File implements StorageInterface
      */
     private function delKey(array $data, $key)
     {
-        foreach ($data as $dataKey => $dataValue) {
+        $keys = array_keys($data);
+        foreach ($keys as $dataKey) {
             if (strpos($dataKey, $key) === 0) {
                 unset($data[$dataKey]);
             }

@@ -24,7 +24,7 @@ class Pdo implements StorageInterface
      */
     private $sqlQueries = [
         'clear' => 'DELETE FROM %tablename%',
-        'delete' => 'DELETE FROM %tablename% WHERE LOWER(LEFT(`key`, ?)) = ?'
+        'delete' => 'DELETE FROM %tablename% WHERE LOWER(LEFT(`key`, ?)) = ?',
         'load' => 'SELECT `key`, `value` FROM %tablename%',
         'save' => 'INSERT INTO %tablename% (`key`, `value`) VALUES (?,?)'
     ];
@@ -94,7 +94,7 @@ class Pdo implements StorageInterface
 
         $results = [];
         foreach ($stmt->fetchAll() as $row) {
-            $results[$data['key']] = $row['value'];
+            $results[$row['key']] = $row['value'];
         }
         return $results;
     }
