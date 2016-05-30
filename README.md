@@ -1,4 +1,3 @@
-
 # Laravel Config
 
 [![Build Status](https://travis-ci.org/benrowe/laravel-config.svg?branch=feature%2F1-setup-build-environment)](https://travis-ci.org/benrowe/laravel-config)
@@ -8,7 +7,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/benrowe/laravel-config/v/unstable.svg)](https://packagist.org/packages/benrowe/laravel-config)
 [![License](https://poser.pugx.org/benrowe/laravel-config/license.svg)](https://packagist.org/packages/benrowe/laravel-config)
 
-A Laravel runtime configuration handler that supports hierarchical configuration,
+A Laravel __runtime__ configuration handler that supports hierarchical configuration,
 however when stored, the data is flattened to basic key/value pairs (this allows for more possible storage options)
 
 ```php
