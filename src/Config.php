@@ -9,8 +9,10 @@ namespace Benrowe\Laravel\Config;
 
 use Benrowe\Laravel\Config\Modifiers\Collection;
 use Benrowe\Laravel\Config\Modifiers\Modifier;
+use Benrowe\Laravel\Config\Storage\StorageInterface;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
+use InvalidArgumentException;
 
 /**
  * Config class
@@ -44,19 +46,34 @@ class Config implements Repository
      */
     private $arrHelper;
 
+    private $storage;
+
     /**
      * constructor
      * The initial data
      *
-     * @param array $data the flattened data
+     * @param array|StorageInterface $data the flattened data
      * @param Arr|null $arrHelper the array helper
      */
-    public function __construct($data, Arr $arrHelper = null)
+    public function __construct($data = [], Arr $arrHelper = null)
     {
+        // test $data is valid
+        if (!is_array($data) && !($data instanceof StorageInterface)) {
+            $msg = '$data must be either an array or an implementation of ';
+            $msg .= StorageInterface::class;
+            throw new \InvalidArgumentException($msg);
+        }
+
         if ($arrHelper === null) {
             $arrHelper = new Arr;
         }
         $this->arrHelper = $arrHelper;
+
+        if ($data instanceof StorageInterface) {
+            $this->storage = $data;
+            $data = $this->storage->load();
+        }
+
         $this->data = $this->dataDecode($data);
         $this->modifiers = new Collection;
     }
@@ -80,11 +97,20 @@ class Config implements Repository
      */
     public function set($key, $value = null)
     {
-        $this->arrHelper->set(
-            $this->data,
+        $value = $this->modifiers->convert(
             $key,
-            $this->modifiers->convert($key, $value, Modifier::DIRECTION_FROM)
+            $value,
+            Modifier::DIRECTION_FROM
         );
+        // verify the array
+        if (!$this->isValidValue($value)) {
+            $msg = 'Value for "'.$key.'" is invalid. ';
+            $msg .= 'Must be scalar or an array of scalar values';
+            throw new InvalidArgumentException($msg);
+        }
+
+        $this->arrHelper->set($this->data, $key, $value);
+        $this->storage && $this->storage->save($key, $value);
     }
 
     /**
@@ -134,6 +160,7 @@ class Config implements Repository
     {
         if (!empty($this->data)) {
             $this->data = [];
+            $this->storage && $this->storage->clear();
             return true;
         }
         return false;
@@ -287,5 +314,22 @@ class Config implements Repository
             return $data;
         }
         return $this->dataEncode($value, $prefix.$key.self::KEY_DELIMITER);
+    }
+
+    /**
+     * Validate the value as safe for this object
+     *
+     * @param  mixed  $value the value to test
+     * @return boolean
+     */
+    private function isValidValue($value)
+    {
+        return
+            is_scalar($value) ||
+            (
+                is_array($value) &&
+                !$this->arrHelper->isAssoc($value) &&
+                count($value) === count(array_filter($value, 'is_scalar'))
+            );
     }
 }
