@@ -2,7 +2,7 @@
 
 namespace Benrowe\Laravel\Config\Storage;
 
-use PDO;
+use PDO as BasePdo;
 
 /**
  * @package Benrowe\Laravel\Config\Storage
@@ -36,7 +36,7 @@ class Pdo implements StorageInterface
      * @param string $tableName  the table name to reference
      * @param array $sqlQueries custom queries
      */
-    public function __construct(PDO $pdo, $tableName = 'config', array $sqlQueries = [])
+    public function __construct(BasePdo $pdo, $tableName = 'config', array $sqlQueries = [])
     {
         $this->pdo = $pdo;
         $this->tableName = $tableName;
