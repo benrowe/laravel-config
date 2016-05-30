@@ -25,10 +25,14 @@ class ServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $configPath = __DIR__ . '/../config/config.php';
+        # publish necessary files
         $this->publishes([
-            $configPath => $this->getConfigPath(),
+            __DIR__ . '/../config/config.php' => config_path('config.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/../migrations/' => database_path('migrations'),
+        ], 'migrations');
     }
 
     /**
@@ -63,6 +67,6 @@ class ServiceProvider extends ServiceProvider
      */
     protected function getConfigPath()
     {
-        return config_path('config.php');
+        return ;
     }
 }
