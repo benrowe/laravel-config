@@ -117,7 +117,7 @@ class Pdo implements StorageInterface
     private function getSqlQuery($name, array $vars = [])
     {
         $sql = $this->sqlQueries[$name];
-        $vars = array_merge(['tablename' => $this->tablename], $vars);
+        $vars = array_merge(['tablename' => $this->tableName], $vars);
         foreach ($vars as $key => $value) {
             $sql = str_replace("%$key%", $value, $sql);
         }
