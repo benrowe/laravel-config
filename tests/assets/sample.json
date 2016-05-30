@@ -1,0 +1,8 @@
+{
+    "fooo": "bar",
+    "foo.other": "bar",
+    "foo.bar.something": "something",
+    "foo.bar.list[0]": "VALUE:foo.bar.list[0]",
+    "foo.bar.list[1]": "VALUE:foo.bar.list[1]",
+    "foo.bar.list[2]": "VALUE:foo.bar.list[2]"
+}
