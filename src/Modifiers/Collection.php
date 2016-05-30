@@ -11,10 +11,15 @@ use Benrowe\Laravel\Config\Modifiers\Modifier;
 use Illuminate\Support\Collection as BaseCollection;
 
 /**
+ * Modifier collection
  *
+ * @package Benrowe\Laravel\Config\Modifiers
  */
 class Collection extends BaseCollection
 {
+    /**
+     * @var array list of keys that have been modified
+     */
     private $keys = [];
     /**
      * Convert the value based on the supplied modifiers
