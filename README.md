@@ -1,3 +1,4 @@
+
 # Laravel Config
 
 [![Build Status](https://travis-ci.org/benrowe/laravel-config.svg?branch=feature%2F1-setup-build-environment)](https://travis-ci.org/benrowe/laravel-config)
@@ -8,7 +9,7 @@
 [![License](https://poser.pugx.org/benrowe/laravel-config/license.svg)](https://packagist.org/packages/benrowe/laravel-config)
 
 A Laravel runtime configuration handler that supports hierarchical configuration,
-however when stored, the data is flattened to basic key/value pairs (for storage in a simple db structure)
+however when stored, the data is flattened to basic key/value pairs (this allows for more possible storage options)
 
 ```php
 <?php
@@ -32,7 +33,7 @@ $bar = $config->get('foo.bar'); // => ['Hello', 'World']
   - Provided Storage Adapters include Db, File, Redis.
 - Dot notation syntax for configuration hierarchy.
 - Values can be simple strings, or arrays of strings.
-- Modifier support. Modifers can be registered to manipulate the value at runtime. (aka storing json, datetimes, etc).
+- Modifier support. Modifers can be registered to manipulate the value at runtime. (aka storing json, datetimes, booleans, etc).
 - [ServiceProvider][2] included to configure the component based on the supplied configuration
 - Facade support
 
@@ -57,7 +58,7 @@ $ composer.phar install
 
 This will provide access to the component via PSR-4. To configure the package as a laravel service, the service provider must be registered with the provided ServiceProvider.
 
-* 
+*
 
 
 [1]: http://getcomposer.org/
