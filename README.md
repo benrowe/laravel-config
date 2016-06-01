@@ -57,7 +57,17 @@ $ composer.phar install
 
 This will provide access to the component via PSR-4. To configure the package as a laravel service, the service provider must be registered with the provided ServiceProvider.
 
-*
+## Configuring Laravel
+
+In order to provide
+
+### Todo
+
+
+* publish config
+* publish migration (if storing in pdo)
+* install service provider
+
 
 
 [1]: http://getcomposer.org/
