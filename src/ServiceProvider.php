@@ -42,7 +42,7 @@ class ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('config', function () {
+        $this->app->singleton('config-runtime', function () {
             return new Config();
         });
     }
@@ -56,7 +56,7 @@ class ServiceProvider extends ServiceProvider
     {
         return [
             'Benrowe\Laravel\Config\Config',
-            'config'
+            'config-runtime'
         ];
     }
 
