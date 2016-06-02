@@ -1,7 +1,15 @@
 {
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benrowe/laravel-config.git"
+  },
   "devDependencies": {
+    "gulp-debug": "^2.1.2",
+    "gulp-phplint": "^0.1.0",
     "gulp-phpunit": "^0.14.0",
     "gulp-util": "^3.0.7",
-    "gulp-watch": "^4.3.5"
+    "gulp-watch": "^4.3.5",
+    "node-notifier": "^4.5.0"
   }
 }
