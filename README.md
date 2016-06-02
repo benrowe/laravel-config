@@ -7,8 +7,8 @@
 [![Latest Unstable Version](https://poser.pugx.org/benrowe/laravel-config/v/unstable.svg)](https://packagist.org/packages/benrowe/laravel-config)
 [![License](https://poser.pugx.org/benrowe/laravel-config/license.svg)](https://packagist.org/packages/benrowe/laravel-config)
 
-A Laravel runtime configuration handler that supports hierarchical configuration,
-however when stored, the data is flattened to basic key/value pairs (for storage in a simple db structure)
+A Laravel __runtime__ configuration handler that supports hierarchical configuration,
+however when stored, the data is flattened to basic key/value pairs (this allows for more possible storage options)
 
 ```php
 <?php
@@ -28,16 +28,14 @@ $bar = $config->get('foo.bar'); // => ['Hello', 'World']
 
 ## Features
 
-- Ability to store the configuration data into any persistent data store (file, db, etc)
-- Dot notation systax for configuration hierarchy.
-- Values can be simple strings, or arrays of strings
+- Ability to store the configuration data into any persistent data store (file, db, etc).
+  - Provided Storage Adapters include Db, File, Redis.
+- Dot notation syntax for configuration hierarchy.
+- Values can be simple strings, or arrays of strings.
+- Modifier support. Modifers can be registered to manipulate the value at runtime. (aka storing json, datetimes, booleans, etc).
+- [ServiceProvider][2] included to configure the component based on the supplied configuration
+- Facade support
 
-## Coming in 0.2
-- Service Provider will be included
-- Ability to register accessors/mutators. These can provide runtime manipulation
-  of values within the configuration
-- Adapters for persistent data storage
-- Facade Support
 
 ## Installation
 
@@ -57,4 +55,35 @@ Now run the `install` command.
 $ composer.phar install
 ```
 
+This will provide access to the component via PSR-4. To configure the package as a laravel service, the service provider must be registered with the provided ServiceProvider.
+
+## Configuring Laravel
+
+To setup the config component within laravel, you must do the following
+
+```
+php artisan vendor:publish --provider="Benrowe\Laravel\Config\ServiceProvider" --tag="config"
+```
+
+This will publish a `config.php` file into your `config` directory. At this point you will need to edit the file and setup how you want to persist your configuration (not required)
+
+Additionally if you plan to store your configuration in a database (such as mysql, etc) you will need to publish the migration which stores the config schema
+
+```
+php artisan vendor:publish --provider="Benrowe\Laravel\Config\ServiceProvider" --tag="migrations"
+```
+
+Finally register the provided service provider with
+
+```php
+Benrowe\Laravel\Config\ServiceProvider::class
+```
+
+Additionally if you require, you can register the Facade
+
+```php
+'Config' => Benrowe\Laravel\Config\Facdes\Config::class,
+```
+
 [1]: http://getcomposer.org/
+[2]: https://laravel.com/docs/master/providers
