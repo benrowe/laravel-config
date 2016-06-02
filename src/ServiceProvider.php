@@ -22,11 +22,11 @@ class ServiceProvider extends ServiceProvider
     {
         # publish necessary files
         $this->publishes([
-            __DIR__ . '/../config/config.php' => config_path('config.php'),
+            __DIR__ . '/config/config.php' => config_path('config.php'),
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/../migrations/' => database_path('migrations'),
+            __DIR__.'/migrations/' => database_path('migrations'),
         ], 'migrations');
     }
 
