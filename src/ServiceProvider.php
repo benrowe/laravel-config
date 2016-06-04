@@ -2,21 +2,19 @@
 
 namespace Benrowe\Laravel\Config;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 /**
  * Service Provider for Config
  *
  * @package Benrowe\Laravel\Config;
  */
-class ServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     protected $defer = false;
 
     /**
-     * Boot the configuration component
-     *
-     * @return nil
+     * @inheritdoc
      */
     public function boot()
     {
@@ -31,9 +29,7 @@ class ServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register an instance of the component
-     *
-     * @return void
+     * @inheritdoc
      */
     public function register()
     {
