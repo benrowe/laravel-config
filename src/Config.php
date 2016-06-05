@@ -52,17 +52,14 @@ class Config implements Repository
      */
     public function __construct($data = [], Arr $arrHelper = null)
     {
+        $this->setArrHelper($arrHelper);
+
         // test $data is valid
         if (!is_array($data) && !($data instanceof StorageInterface)) {
             $msg = '$data must be either an array or an implementation of ';
             $msg .= StorageInterface::class;
             throw new \InvalidArgumentException($msg);
         }
-
-        if ($arrHelper === null) {
-            $arrHelper = new Arr;
-        }
-        $this->arrHelper = $arrHelper;
 
         if ($data instanceof StorageInterface) {
             $this->storage = $data;
@@ -71,6 +68,19 @@ class Config implements Repository
 
         $this->data = $this->dataDecode($data);
         $this->modifiers = new Collection;
+    }
+
+    /**
+     * Set the array helper
+     *
+     * @param Arr|null $arrHelper
+     */
+    private function setArrHelper(Arr $arrHelper = null)
+    {
+        if ($arrHelper === null) {
+            $arrHelper = new Arr;
+        }
+        $this->arrHelper = $arrHelper;
     }
 
     /**
