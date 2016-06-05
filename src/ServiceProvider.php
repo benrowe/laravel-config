@@ -34,7 +34,11 @@ class ServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->app->singleton('config-runtime', function () {
-            return new Config();
+            $storage = $this->selectStorage($this->app['config']);
+            if ($storage === null) {
+                $storage = [];
+            }
+            return new Config($storage);
         });
     }
 
@@ -51,19 +55,9 @@ class ServiceProvider extends BaseServiceProvider
         ];
     }
 
-    /**
-     * Get the configuration destination path
-     *
-     * @return string
-     */
-    protected function getConfigPath()
+    protected function selectStorage($config)
     {
-        return '';
-    }
-
-    protected function selectStorage(Config $config)
-    {
-        $storage = false;
+        $storage = null;
         if ($config->get('config.storage.enabled')) {
             $driver = $config->get('config.storage.driver', 'file');
             switch ($driver) {
