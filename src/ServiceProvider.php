@@ -63,8 +63,6 @@ class ServiceProvider extends BaseServiceProvider
         if (!$config->get('config.storage.enabled')) {
             return null;
         }
-
-        $storage = null;
         $driver = $config->get('config.storage.driver', 'file');
         switch ($driver) {
             case 'pdo':
