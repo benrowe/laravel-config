@@ -48,7 +48,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Define the services this provider will build & provide
      *
-     * @return array
+     * @return string[]
      */
     public function provides()
     {
