@@ -9,7 +9,7 @@ return [
     'storage' => [
         'enabled' => true,
         'driver' => 'file', // redis, file, pdo, custom
-        'path' => storage_path('config'), // For file driver
+        'path' => storage_path('app/runtime.json'), // For file driver
         'connection' => null, // leave null for default connection
         'provider' => '', // instance of StorageInterface for custom driver
         // Benrowe\Laravel\Config\Adapters\Db::class,
