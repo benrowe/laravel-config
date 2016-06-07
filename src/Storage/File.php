@@ -59,11 +59,16 @@ class File implements StorageInterface
      */
     public function load()
     {
+        if (!file_exists($this->filename)) {
+            touch($this->filename);
+        }
         $content = file_get_contents($this->filename);
         $this->fileState = md5($content);
 
-
-        return json_decode($content, true);
+        if (!empty($content)) {
+            return json_decode($content, true);
+        }
+        return [];
     }
 
     /**
