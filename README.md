@@ -10,6 +10,10 @@
 A Laravel __runtime__ configuration handler that supports hierarchical configuration,
 however when stored, the data is flattened to basic key/value pairs (this allows for more possible storage options)
 
+## Currently in beta
+
+- There's still few remaining bugs. A proper release should be available in the next few days
+
 ```php
 <?php
 
