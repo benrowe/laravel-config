@@ -17,7 +17,7 @@ class CreateRuntimeConfigTable extends Migration
     public function up()
     {
         Schema::create('config', function (Blueprint $table) {
-            $table->pk('id');
+            $table->increments('id');
             $table->string('key');
             $table->longText('value');
 
