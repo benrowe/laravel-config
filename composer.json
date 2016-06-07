@@ -4,7 +4,7 @@
     "description": "A basic laravel runtime configuration handler that is stored as simple key/values.",
     "keywords": ["laravel", "config", "read", "write", "filter"],
     "license": "MIT",
-    "homepage" : "http://config.benrowe.info",
+    "homepage" : "http://benrowe.info",
     "authors": [
         {
             "name": "Ben Rowe",
