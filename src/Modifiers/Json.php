@@ -15,23 +15,43 @@ namespace Benrowe\Laravel\Config\Modifiers;
 class Json implements Modifier
 {
     /**
-     * Determine if this value is json
+     * Determine if this value is json (array or object)
      *
      * @param  string $value
      * @return boolean
      */
-    public function canHandle($value, $direction)
+    public function canHandleFrom($value)
     {
-        $canTo = $direction == self::DIRECTION_TO && is_string($value) && in_array($value[0], ['[', '{']);
-        $canFrom = $direction == self::DIRECTION_FROM && gettype($value) == 'array' || gettype($value) == 'object';
-        return $canTo xor $canFrom;
+        return gettype($value) == 'array' || gettype($value) == 'object';
     }
 
+    /**
+     * Determine if we can convert this string into json
+     * @param  string $value
+     * @return boolean
+     */
+    public function canHandleTo($value)
+    {
+        return is_string($value) && in_array($value[0], ['[', '{']);
+    }
+
+    /**
+     * Convert the string into the json object/array
+     *
+     * @param  string|array $value
+     * @return mixed
+     */
     public function convertTo($value)
     {
         return json_decode($value);
     }
 
+    /**
+     * Convert the complex object back to a string
+     *
+     * @param  mixed $value
+     * @return string
+     */
     public function convertFrom($value)
     {
         return json_encode($value);

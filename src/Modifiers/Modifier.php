@@ -15,9 +15,22 @@ interface Modifier
     const DIRECTION_FROM = 'from';
 
     /**
+     * Determine if this modifier can handle converting to, based on the
+     * supplied value
+     *
+     * @param string $value
      * @return boolean
      */
-    public function canHandle($value, $direction);
+    public function canHandleTo($value);
+
+    /**
+     * Determine if this modifier can handle converting to, based on the
+     * supplied value
+     *
+     * @param  mixed $value the external value to sniff
+     * @return boolean
+     */
+    public function canHandleFrom($value);
 
     /**
      * Convert the string|array value to the desired result
@@ -28,7 +41,7 @@ interface Modifier
 
     /**
      * Conver the value from it's modified form, back into an array
-     * @param  mixed $value [description]
+     * @param  mixed $value
      * @return string
      */
     public function convertFrom($value);

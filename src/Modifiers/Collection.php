@@ -21,6 +21,7 @@ class Collection extends BaseCollection
      * @var array list of keys that have been modified
      */
     private $keys = [];
+    
     /**
      * Convert the value based on the supplied modifiers
      *
@@ -31,11 +32,12 @@ class Collection extends BaseCollection
      */
     public function convert($key, $value, $direction = Modifier::DIRECTION_TO)
     {
-        $method = 'convert'.ucfirst($direction);
+        $convertMethod = 'convert'.ucfirst($direction);
+        $canMethod = 'canHandle'.ucfirst($direction);
         foreach ($this->items as $modifier) {
-            if ($modifier->canHandle($value, $direction)) {
+            if ($modifier->$canMethod($value)) {
                 $this->keys[] = $key;
-                return $modifier->$method($value);
+                return $modifier->$convertMethod($value);
             }
         }
         return $value;
