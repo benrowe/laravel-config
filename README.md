@@ -63,30 +63,29 @@ This will provide access to the component via PSR-4. To configure the package as
 
 ## Configuring Laravel
 
-To setup the config component within laravel, you must do the following
-
-```
-php artisan vendor:publish --provider="Benrowe\Laravel\Config\ServiceProvider" --tag="config"
-```
-
-This will publish a `config.php` file into your `config` directory. At this point you will need to edit the file and setup how you want to persist your configuration (not required)
-
-Additionally if you plan to store your configuration in a database (such as mysql, etc) you will need to publish the migration which stores the config schema
-
-```
-php artisan vendor:publish --provider="Benrowe\Laravel\Config\ServiceProvider" --tag="migrations"
-```
-
-Finally register the provided service provider with
+Once the package has been installed via composer, you need to register the service provider. To do this, edit your `config/app.php` and add a new option under the `providers` key.
 
 ```php
 Benrowe\Laravel\Config\ServiceProvider::class
 ```
 
-Additionally if you require, you can register the Facade
+Additionally you can register the provided facade.
 
 ```php
-'Config' => Benrowe\Laravel\Config\Facdes\Config::class,
+'RuntimeConfig' => Benrowe\Laravel\Config\Facdes\Config::class,
+```
+With the service provider registered, this will give access to the config component, however it is _not_ configured to persist any changes you make to the config. To do this, you need to publish the provided config file.
+
+```
+php artisan vendor:publish --provider="Benrowe\Laravel\Config\ServiceProvider" --tag="config"
+```
+
+This will publish a `config.php` file into your `config` directory. At this point you will need to edit the file and setup how you want to persist your configuration.
+
+Additionally if you plan to store your configuration in a database (such as mysql, etc) you will need to publish the migration which stores the config schema
+
+```
+php artisan vendor:publish --provider="Benrowe\Laravel\Config\ServiceProvider" --tag="migrations"
 ```
 
 [1]: http://getcomposer.org/
