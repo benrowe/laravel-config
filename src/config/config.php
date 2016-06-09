@@ -20,5 +20,6 @@ return [
      */
     'modifiers' => [
         Benrowe\Laravel\Config\Modifiers\Json::class,
+        Benrowe\Laravel\Config\Modifiers\Boolean::class,
     ]
 ];
