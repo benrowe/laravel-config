@@ -5,7 +5,7 @@ var watch = require('gulp-watch');
 var notifier = require('node-notifier');
 var debug = require('gulp-debug');
 
-var map = ['src/*.php', 'tests/*.php'];
+var map = ['src/**/*.php', 'tests/**/*.php'];
 
 gulp.task('dev', function(cb) {
     var options = {
