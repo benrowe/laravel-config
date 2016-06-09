@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author Ben Rowe <ben.rowe.83@gmail.com>
- * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- */
-
 namespace Benrowe\Laravel\Config\Modifiers;
 
 /**
