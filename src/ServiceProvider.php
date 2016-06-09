@@ -41,7 +41,13 @@ class ServiceProvider extends BaseServiceProvider
             if ($storage === null) {
                 $storage = [];
             }
-            return new Config($storage);
+            $cfg = new Config($storage);
+            $modifiers = $this->app['config']->get('config.modifiers', []);
+            foreach ($modifiers as $className) {
+                $cfg->modifiers->push(new $className);
+            }
+
+            return $cfg;
         });
     }
 
