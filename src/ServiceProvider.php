@@ -5,6 +5,8 @@ namespace Benrowe\Laravel\Config;
 use Benrowe\Laravel\Config\Storage\File;
 use Benrowe\Laravel\Config\Storage\Pdo;
 use Benrowe\Laravel\Config\Storage\Redis;
+use Benrowe\Laravel\Config\Storage\StorageInterface;
+use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 /**
@@ -64,33 +66,69 @@ class ServiceProvider extends BaseServiceProvider
         ];
     }
 
+    /**
+     * Retrieve the storage engine, based on the current configuration
+     *
+     * @param  Config $config
+     * @return StorageInterface
+     */
     protected function selectStorage($config)
     {
         if (!$config->get('config.storage.enabled')) {
             return null;
         }
         $driver = $config->get('config.storage.driver', 'file');
-        switch ($driver) {
-            case 'pdo':
-                $connection = $config->get('config.storage.connection');
-                $table = $this->app['db']->getTablePrefix() . 'config';
-                $pdo = $this->app['db']->connection($connection)->getPdo();
-                $storage = new Pdo($pdo, $table);
-                break;
-            case 'redis':
-                $connection = $config->get('config.storage.connection');
-                $storage = new Redis($this->app['redis']->connection($connection));
-                break;
-            case 'custom':
-                $class = $config->get('config.storage.provider');
-                $storage = $this->app->make($class);
-                break;
-            case 'file':
-            default:
-                $path = $config->get('config.storage.path');
-                $storage = new File($path);
-                break;
-        }
-        return $storage;
+        $method = 'selectStorage'.ucfirst($driver);
+        return $this->$method($config);
+    }
+
+    /**
+     * Get an instance of the PDO storage engine
+     *
+     * @param  Config $config
+     * @return Pdo
+     */
+    protected function selectStoragePdo($config)
+    {
+        $connection = $config->get('config.storage.connection');
+        $table = $this->app['db']->getTablePrefix() . 'config';
+        $pdo = $this->app['db']->connection($connection)->getPdo();
+        return new Pdo($pdo, $table);
+    }
+
+    /**
+     * Get an instance of the Redis storage engine
+     *
+     * @param  Config  $config
+     * @return Redis
+     */
+    protected function selectStorageRedis($config)
+    {
+        $connection = $config->get('config.storage.connection');
+        return new Redis($this->app['redis']->connection($connection));
+    }
+
+    /**
+     * Get an instance of a custom defined storage engine
+     *
+     * @param  Config $config [description]
+     * @return StorageInterface
+     */
+    protected function selectStorageCustom($config)
+    {
+        $class = $config->get('config.storage.provider');
+        return $this->app->make($class);
+    }
+
+    /**
+     * Get an instance of the File storage engine
+     *
+     * @param  Config $config
+     * @return File
+     */
+    protected function selectStorageFile($config)
+    {
+        $path = $config->get('config.storage.path');
+        return new File($path);
     }
 }
