@@ -6,7 +6,7 @@ use Benrowe\Laravel\Config\Storage\File;
 use Benrowe\Laravel\Config\Storage\Pdo;
 use Benrowe\Laravel\Config\Storage\Redis;
 use Benrowe\Laravel\Config\Storage\StorageInterface;
-use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Config\Repository as LaravelConfig;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 /**
@@ -69,7 +69,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Retrieve the storage engine, based on the current configuration
      *
-     * @param  Config $config
+     * @param  LaravelConfig $config
      * @return StorageInterface
      */
     protected function selectStorage($config)
@@ -85,7 +85,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Get an instance of the PDO storage engine
      *
-     * @param  Config $config
+     * @param  LaravelConfig $config
      * @return Pdo
      */
     protected function selectStoragePdo($config)
@@ -99,7 +99,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Get an instance of the Redis storage engine
      *
-     * @param  Config  $config
+     * @param  LaravelConfig  $config
      * @return Redis
      */
     protected function selectStorageRedis($config)
@@ -111,7 +111,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Get an instance of a custom defined storage engine
      *
-     * @param  Config $config [description]
+     * @param  LaravelConfig $config [description]
      * @return StorageInterface
      */
     protected function selectStorageCustom($config)
@@ -123,7 +123,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Get an instance of the File storage engine
      *
-     * @param  Config $config
+     * @param  LaravelConfig $config
      * @return File
      */
     protected function selectStorageFile($config)
