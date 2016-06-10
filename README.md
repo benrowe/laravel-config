@@ -1,7 +1,7 @@
 # Laravel Config
 
 [![Build Status](https://travis-ci.org/benrowe/laravel-config.svg?branch=feature%2F1-setup-build-environment&format=flat-square)](https://travis-ci.org/benrowe/laravel-config)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/benrowe/laravel-config/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/benrowe/laravel-config/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/benrowe/laravel-config/badges/quality-score.png?b=master&format=flat-square)](https://scrutinizer-ci.com/g/benrowe/laravel-config/?branch=master)
 [![Total Downloads](https://poser.pugx.org/benrowe/laravel-config/d/total.svg?format=flat-square)](https://packagist.org/packages/benrowe/laravel-config)
 [![Latest Stable Version](https://poser.pugx.org/benrowe/laravel-config/v/stable.svg?format=flat-square)](https://packagist.org/packages/benrowe/laravel-config)
 [![Latest Unstable Version](https://poser.pugx.org/benrowe/laravel-config/v/unstable.svg?format=flat-square)](https://packagist.org/packages/benrowe/laravel-config)
