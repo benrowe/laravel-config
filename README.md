@@ -1,11 +1,11 @@
 # Laravel Config
 
-[![Build Status](https://travis-ci.org/benrowe/laravel-config.svg?branch=feature%2F1-setup-build-environment)](https://travis-ci.org/benrowe/laravel-config)
+[![Build Status](https://travis-ci.org/benrowe/laravel-config.svg?branch=feature%2F1-setup-build-environment&format=flat-square)](https://travis-ci.org/benrowe/laravel-config)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/benrowe/laravel-config/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/benrowe/laravel-config/?branch=master)
-[![Total Downloads](https://poser.pugx.org/benrowe/laravel-config/d/total.svg)](https://packagist.org/packages/benrowe/laravel-config)
-[![Latest Stable Version](https://poser.pugx.org/benrowe/laravel-config/v/stable.svg)](https://packagist.org/packages/benrowe/laravel-config)
-[![Latest Unstable Version](https://poser.pugx.org/benrowe/laravel-config/v/unstable.svg)](https://packagist.org/packages/benrowe/laravel-config)
-[![License](https://poser.pugx.org/benrowe/laravel-config/license.svg)](https://packagist.org/packages/benrowe/laravel-config)
+[![Total Downloads](https://poser.pugx.org/benrowe/laravel-config/d/total.svg?format=flat-square)](https://packagist.org/packages/benrowe/laravel-config)
+[![Latest Stable Version](https://poser.pugx.org/benrowe/laravel-config/v/stable.svg?format=flat-square)](https://packagist.org/packages/benrowe/laravel-config)
+[![Latest Unstable Version](https://poser.pugx.org/benrowe/laravel-config/v/unstable.svg?format=flat-square)](https://packagist.org/packages/benrowe/laravel-config)
+[![License](https://poser.pugx.org/benrowe/laravel-config/license.svg?format=flat-square)](https://packagist.org/packages/benrowe/laravel-config)
 
 A Laravel __runtime__ configuration handler that supports hierarchical configuration,
 however when stored, the data is flattened to basic key/value pairs (this allows for more possible storage options)
