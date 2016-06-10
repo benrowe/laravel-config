@@ -1,17 +1,27 @@
 language: php
+
 sudo: false
+
 php:
   - '5.5'
   - '5.6'
   - '7.0'
+
 cache:
   directories:
     - $HOME/.composer/cache
+
 before_install:
   - composer self-update
   - composer validate
+
 install:
   - travis_retry composer install --prefer-dist
+
 script: phpunit --configuration build/phpunit.xml
+
+after_script:
+ - wget https://scrutinizer-ci.com/ocular.phar; && php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+
 notifications:
   email: false
